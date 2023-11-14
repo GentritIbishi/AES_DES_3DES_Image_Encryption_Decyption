@@ -11,7 +11,7 @@ This application provides a secure way to encrypt and decrypt image files using 
 - **Program:** Computer and Software Engineering
 
 ### About the Author
-- **Student Name:** Gentrit Ibishi
+- **Name:** Gentrit Ibishi
 - **Email:** gentritibishi@gmail.com
 - **Date:** November 13, 2023
 
