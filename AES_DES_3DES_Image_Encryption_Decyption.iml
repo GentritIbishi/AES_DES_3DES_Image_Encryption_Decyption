@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/aes/lib/bcprov-jdk15on-1.70.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/lib/bcprov-jdk15on-1.70.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

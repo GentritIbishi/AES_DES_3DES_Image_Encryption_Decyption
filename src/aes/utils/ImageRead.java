@@ -12,12 +12,9 @@ public class ImageRead extends JPanel {
 
     public ImageRead() {
         this.image = null;
-
         setFocusable(true);
-
         setLayout(null);
         setOpaque(true);
-
     }
 
     /**

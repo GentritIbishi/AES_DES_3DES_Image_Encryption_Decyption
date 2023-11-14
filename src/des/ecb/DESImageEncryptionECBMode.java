@@ -1,9 +1,9 @@
-package aes.ecb;
+package des.ecb;
 
 import aes.utils.ImageUtils;
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.engines.AESEngine;
+import org.bouncycastle.crypto.engines.DESEngine; // Changed to DESEngine for DES
 import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
 
@@ -11,18 +11,17 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public class ImageEncryptionECBMode {
+public class DESImageEncryptionECBMode {
 
     // ECB Mode
     // Values that should be GLOBAL are: Key
     // We can use generateRandomBytes for encryption and decryption
-    // Key length: 32
+    // Key length: 8 for DES
     private SecretKeySpec skeySpec;
 
     public byte[] getKey() {
@@ -30,7 +29,7 @@ public class ImageEncryptionECBMode {
     }
 
     public void setKey(byte[] key) {
-        skeySpec = new SecretKeySpec(key, "AES");
+        skeySpec = new SecretKeySpec(key, "DES"); // Changed to "DES" for DES
     }
 
     private static byte[] generateRandomBytes(int length) {
@@ -40,10 +39,10 @@ public class ImageEncryptionECBMode {
         return bytes;
     }
 
-    private static byte[] encryptAES(byte[] input, byte[] key, boolean isCBCMode)
+    private static byte[] encryptDES(byte[] input, byte[] key)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
-        BlockCipher engine = new AESEngine();
+        BlockCipher engine = new DESEngine(); // Changed to DESEngine for DES
         PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(engine);
         cipher.init(true, new KeyParameter(key));
 
@@ -54,10 +53,10 @@ public class ImageEncryptionECBMode {
         return output;
     }
 
-    private static byte[] decryptAES(byte[] input, byte[] key, boolean isCBCMode)
+    private static byte[] decryptDES(byte[] input, byte[] key)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
-        BlockCipher engine = new AESEngine();
+        BlockCipher engine = new DESEngine(); // Changed to DESEngine for DES
         PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(engine);
         cipher.init(false, new KeyParameter(key));
 
@@ -76,7 +75,7 @@ public class ImageEncryptionECBMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encryptAES(imageOrigBytes, getKey(), false);
+        byte[] ciphertext = encryptDES(imageOrigBytes, getKey());
 
         return ImageUtils.bytesToImage(ciphertext, imageOrig.getWidth(), imageOrig.getHeight());
     }
@@ -89,10 +88,10 @@ public class ImageEncryptionECBMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encryptAES(imageOrigBytes, getKey(), false);
+        byte[] ciphertext = encryptDES(imageOrigBytes, getKey());
 
         // Decrypt
-        byte[] decryptedImageBytes = decryptAES(ciphertext, getKey(), false);
+        byte[] decryptedImageBytes = decryptDES(ciphertext, getKey());
 
         return ImageUtils.bytesToImage(decryptedImageBytes, imageOrig.getWidth(), imageOrig.getHeight());
     }

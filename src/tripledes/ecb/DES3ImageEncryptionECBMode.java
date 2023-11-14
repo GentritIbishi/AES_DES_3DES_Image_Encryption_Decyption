@@ -1,36 +1,36 @@
-package aes.cbc;
+package tripledes.ecb;
 
 import aes.utils.ImageUtils;
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.crypto.modes.CBCBlockCipher;
+import org.bouncycastle.crypto.engines.DESedeEngine; // Changed to DESedeEngine for Triple DES
 import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithIV;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.ShortBufferException;
+import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public class ImageEncryptionCBCMode {
+public class DES3ImageEncryptionECBMode {
 
-    // CBC Mode
-    // Values that should be GLOBAL are: Key and IV
+    // ECB Mode
+    // Values that should be GLOBAL are: Key
     // We can use generateRandomBytes for encryption and decryption
-    // Key length: 32
-    // IV length: 16
-    byte[] iv = generateRandomBytes(16);
+    // Key length: 24 for Triple DES
     private SecretKeySpec skeySpec;
+
+    public byte[] getKey() {
+        return skeySpec.getEncoded();
+    }
+
+    public void setKey(byte[] key) {
+        skeySpec = new SecretKeySpec(key, "DESede"); // Changed to "DESede" for Triple DES
+    }
 
     private static byte[] generateRandomBytes(int length) {
         SecureRandom random = new SecureRandom();
@@ -39,14 +39,12 @@ public class ImageEncryptionCBCMode {
         return bytes;
     }
 
-    private static byte[] encryptAES(byte[] input, byte[] key, byte[] iv, boolean isCBCMode)
+    private static byte[] encryptDES3(byte[] input, byte[] key)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
-        BlockCipher engine = new AESEngine();
-        PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(
-                isCBCMode ? new CBCBlockCipher(engine) : engine
-        );
-        cipher.init(true, new ParametersWithIV(new KeyParameter(key), iv));
+        BlockCipher engine = new DESedeEngine(); // Changed to DESedeEngine for Triple DES
+        PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(engine);
+        cipher.init(true, new KeyParameter(key));
 
         byte[] output = new byte[cipher.getOutputSize(input.length)];
         int bytesWritten = cipher.processBytes(input, 0, input.length, output, 0);
@@ -55,28 +53,18 @@ public class ImageEncryptionCBCMode {
         return output;
     }
 
-    private static byte[] decryptAES(byte[] input, byte[] key, byte[] iv, boolean isCBCMode)
+    private static byte[] decryptDES3(byte[] input, byte[] key)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
-        BlockCipher engine = new AESEngine();
-        PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(
-                isCBCMode ? new CBCBlockCipher(engine) : engine
-        );
-        cipher.init(false, new ParametersWithIV(new KeyParameter(key), iv));
+        BlockCipher engine = new DESedeEngine(); // Changed to DESedeEngine for Triple DES
+        PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(engine);
+        cipher.init(false, new KeyParameter(key));
 
         byte[] output = new byte[cipher.getOutputSize(input.length)];
         int bytesWritten = cipher.processBytes(input, 0, input.length, output, 0);
         bytesWritten += cipher.doFinal(output, bytesWritten);
 
         return output;
-    }
-
-    public byte[] getKey() {
-        return skeySpec.getEncoded();
-    }
-
-    public void setKey(byte[] key) {
-        skeySpec = new SecretKeySpec(key, "AES");
     }
 
     public BufferedImage encryptBufferedImage(String filePath) throws IOException, InvalidCipherTextException, InvalidAlgorithmParameterException, NoSuchPaddingException, ShortBufferException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
@@ -87,12 +75,9 @@ public class ImageEncryptionCBCMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encryptAES(imageOrigBytes, getKey(), iv, true);
+        byte[] ciphertext = encryptDES3(imageOrigBytes, getKey());
 
-        // Convert ciphertext bytes to encrypted image data
-        byte[] ivCiphertextVoid = ByteBuffer.allocate(iv.length + ciphertext.length).put(iv).put(ciphertext).array();
-
-        return ImageUtils.bytesToImage(ivCiphertextVoid, imageOrig.getWidth() + 1, imageOrig.getHeight());
+        return ImageUtils.bytesToImage(ciphertext, imageOrig.getWidth(), imageOrig.getHeight());
     }
 
     public BufferedImage decryptedBufferedImage(String filePath) throws IOException, InvalidCipherTextException, InvalidAlgorithmParameterException, NoSuchPaddingException, ShortBufferException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
@@ -103,11 +88,12 @@ public class ImageEncryptionCBCMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encryptAES(imageOrigBytes, getKey(), iv, true);
+        byte[] ciphertext = encryptDES3(imageOrigBytes, getKey());
 
         // Decrypt
-        byte[] decryptedImageBytes = decryptAES(ciphertext, getKey(), iv, true);
+        byte[] decryptedImageBytes = decryptDES3(ciphertext, getKey());
 
         return ImageUtils.bytesToImage(decryptedImageBytes, imageOrig.getWidth(), imageOrig.getHeight());
     }
 }
+
