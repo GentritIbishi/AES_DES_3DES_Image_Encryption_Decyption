@@ -34,7 +34,7 @@ This GitHub repository contains the source code and documentation for an image e
 - **Bouncy Castle API:** Incorporates the lightweight cryptography API for Java, Bouncy Castle, available in the `org.bouncycastle.crypto` package.
 
 ## Getting Started
-To use the program, follow the instructions provided in the [documentation](link_to_your_documentation). Ensure that you have Java Cryptographic Extension and Bouncy Castle API installed.
+To use the program, follow the instructions provided in the [documentation](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/documentation.pdf). Ensure that you have Java Cryptographic Extension and Bouncy Castle API installed.
 
 ## Installation
 To install the required dependencies, run the following commands:
