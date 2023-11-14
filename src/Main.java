@@ -75,6 +75,63 @@ class Main extends JFrame implements ActionListener {
         }
     }
 
+    public static void displayContactInfo() {
+        JFrame contact = new JFrame("About");
+        contact.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        contact.setSize(new Dimension(500, 430));
+        contact.setLayout(new BorderLayout());
+        contact.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        contact.setResizable(false);
+
+        String keySizesInfo =
+                "Information\n" +
+                        "DES:\n" +
+                        "  Key size: 56 bits (7 bytes)\n\n" +
+
+                        "AES:\n" +
+                        "  128-bit key: 16 bytes\n" +
+                        "  192-bit key: 24 bytes\n" +
+                        "  256-bit key: 32 bytes\n\n" +
+
+                        "3DES:\n" +
+                        "  56-bit key: 7 bytes\n" +
+                        "  112-bit key: 14 bytes\n" +
+                        "  168-bit key: 21 bytes\n";
+
+        String aboutText = "\n\n" +
+                "Version 1.0 \n" +
+                "University of Prishtina \"Hasan Prishtina\"\n" +
+                "Faculty of Electrical and Computer Engineering\n" +
+                "Computer and Software Engineering\n" +
+                "Welcome to AES / DES / 3DES Image Encryption and Decryption with Mode ECB and CBC\n\n" +
+                "CREATED BY:\n\n" +
+                "Student Name: Gentrit Ibishi\n" +
+                "Email: gentritibishi@gmail.com\n" +
+                "November 13, 2023\n\n" +
+
+                "This program encrypts image files:\n" +
+                keySizesInfo +
+                "It uses Java Cryptographic Extension (JCE)\n" +
+                "javax.crypto package API.\n " +
+                "It uses Bouncy Castle, a lightweight cryptography API for Java,\n" +
+                "org.bouncycastle.crypto package API.\n ";
+
+        JTextArea aboutTextArea = new JTextArea(aboutText);
+        aboutTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        aboutTextArea.setLineWrap(true);
+        aboutTextArea.setWrapStyleWord(true);
+        aboutTextArea.setEditable(false);
+
+        JLabel titleLabel = new JLabel("AES / DES / 3DES Image Encryption and Decryption with Mode ECB and CBC");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        contact.add(titleLabel, BorderLayout.NORTH);
+        contact.add(new JScrollPane(aboutTextArea), BorderLayout.CENTER);
+
+        contact.setVisible(true);
+    }
+
     private JMenuBar MainMenu() {
 
         JMenuBar menuBar = new JMenuBar();
@@ -207,31 +264,31 @@ class Main extends JFrame implements ActionListener {
             } //exits the program
             else if (text == "Set Pass Key") {
                 actionKeyDialog();
-            }else if (text == "AES Encrypt ECB Mode Image") {
+            } else if (text == "AES Encrypt ECB Mode Image") {
                 panel.setImage(AESImageEncryptionECBMode.encryptBufferedImage(fileName.getPath()));
             } else if (text == "AES Decrypt ECB Mode Image") {
                 panel.setImage(AESImageEncryptionECBMode.decryptedBufferedImage(fileName.getPath()));
-            }else if (text == "AES Encrypt CBC Mode Image") {
+            } else if (text == "AES Encrypt CBC Mode Image") {
                 panel.setImage(AESImageEncryptionCBCMode.encryptBufferedImage(fileName.getPath()));
             } else if (text == "AES Decrypt CBC Mode Image") {
                 panel.setImage(AESImageEncryptionCBCMode.decryptedBufferedImage(fileName.getPath()));
-            }else if (text == "DES Encrypt ECB Mode Image") {
+            } else if (text == "DES Encrypt ECB Mode Image") {
                 panel.setImage(DESImageEncryptionECBMode.encryptBufferedImage(fileName.getPath()));
             } else if (text == "DES Decrypt ECB Mode Image") {
                 panel.setImage(DESImageEncryptionECBMode.decryptedBufferedImage(fileName.getPath()));
-            }else if (text == "DES Encrypt CBC Mode Image") {
+            } else if (text == "DES Encrypt CBC Mode Image") {
                 panel.setImage(DESImageEncryptionCBCMode.encryptBufferedImage(fileName.getPath()));
             } else if (text == "DES Decrypt CBC Mode Image") {
                 panel.setImage(DESImageEncryptionCBCMode.decryptedBufferedImage(fileName.getPath()));
-            }else if (text == "TRIPLE DES Encrypt ECB Mode Image") {
+            } else if (text == "TRIPLE DES Encrypt ECB Mode Image") {
                 panel.setImage(DES3ImageEncryptionECBMode.encryptBufferedImage(fileName.getPath()));
             } else if (text == "TRIPLE DES Decrypt ECB Mode Image") {
                 panel.setImage(DES3ImageEncryptionECBMode.decryptedBufferedImage(fileName.getPath()));
-            }else if (text == "TRIPLE DES Encrypt CBC Mode Image") {
+            } else if (text == "TRIPLE DES Encrypt CBC Mode Image") {
                 panel.setImage(DES3ImageEncryptionCBCMode.encryptBufferedImage(fileName.getPath()));
             } else if (text == "TRIPLE DES Decrypt CBC Mode Image") {
                 panel.setImage(DES3ImageEncryptionCBCMode.decryptedBufferedImage(fileName.getPath()));
-            }  else if (text == "About") {
+            } else if (text == "About") {
                 displayContactInfo();
             }
 
@@ -246,9 +303,9 @@ class Main extends JFrame implements ActionListener {
     public void actionKeyDialog() {
         String key = new String(generateKey.getKey());
         String keySizesInfo =
-                "Information\n"+
-                "DES:\n" +
-                        "  Key size: 56 bits (7 bytes)\n\n" +
+                "Information\n" +
+                        "DES:\n" +
+                        "  56-bit key: 8 bytes (including parity)\n\n" +
 
                         "AES:\n" +
                         "  128-bit key: 16 bytes\n" +
@@ -256,37 +313,30 @@ class Main extends JFrame implements ActionListener {
                         "  256-bit key: 32 bytes\n\n" +
 
                         "3DES:\n" +
-                        "  56-bit key: 7 bytes\n" +
-                        "  112-bit key: 14 bytes\n" +
-                        "  168-bit key: 21 bytes\n";
+                        "  56-bit key: 8 bytes (including parity) Not support (Library Bouncy Castle)\n" +
+                        "  112-bit key: 16 bytes (including parity)\n" +
+                        "  168-bit key: 24 bytes (including parity)\n";
 
         key = (String) JOptionPane.showInputDialog(this,
-                keySizesInfo+"(current key= " +
+                keySizesInfo + "(current key= " +
                         key.getBytes().length + " bytes)\n\n", key);
 
-        while (key != null && key.getBytes().length != 16)
-        {
+        while (key != null && key.getBytes().length < 8) {
             key = (String) JOptionPane.showInputDialog(this,
-                    keySizesInfo+"(current key= " +
+                    keySizesInfo + "(current key= " +
                             key.getBytes().length + " bytes)\n\n", key);
         }
 
-        if (key != null)
-        {
-            if(key.length() == 8)
-            {
-                DESImageEncryptionECBMode.setKey(key.getBytes());
-                DESImageEncryptionCBCMode.setKey(key.getBytes());
-            }
+        if (key != null) {
 
-            if(key.length() >= 8)
-            {
-                AESImageEncryptionECBMode.setKey(key.getBytes());
-                AESImageEncryptionCBCMode.setKey(key.getBytes());
+            DESImageEncryptionECBMode.setKey(key.getBytes());
+            DESImageEncryptionCBCMode.setKey(key.getBytes());
 
-                DES3ImageEncryptionECBMode.setKey(key.getBytes());
-                DES3ImageEncryptionCBCMode.setKey(key.getBytes());
-            }
+            AESImageEncryptionECBMode.setKey(key.getBytes());
+            AESImageEncryptionCBCMode.setKey(key.getBytes());
+
+            DES3ImageEncryptionECBMode.setKey(key.getBytes());
+            DES3ImageEncryptionCBCMode.setKey(key.getBytes());
 
         }
     }
@@ -345,62 +395,5 @@ class Main extends JFrame implements ActionListener {
             }
             setFile(imageFile);
         }
-    }
-
-    public static void displayContactInfo() {
-        JFrame contact = new JFrame("About");
-        contact.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        contact.setSize(new Dimension(500, 430));
-        contact.setLayout(new BorderLayout());
-        contact.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        contact.setResizable(false);
-
-        String keySizesInfo =
-                "Information\n" +
-                        "DES:\n" +
-                        "  Key size: 56 bits (7 bytes)\n\n" +
-
-                        "AES:\n" +
-                        "  128-bit key: 16 bytes\n" +
-                        "  192-bit key: 24 bytes\n" +
-                        "  256-bit key: 32 bytes\n\n" +
-
-                        "3DES:\n" +
-                        "  56-bit key: 7 bytes\n" +
-                        "  112-bit key: 14 bytes\n" +
-                        "  168-bit key: 21 bytes\n";
-
-        String aboutText = "\n\n" +
-                "Version 1.0 \n" +
-                "University of Prishtina \"Hasan Prishtina\"\n" +
-                "Faculty of Electrical and Computer Engineering\n" +
-                "Computer and Software Engineering\n" +
-                "Welcome to AES / DES / 3DES Image Encryption and Decryption with Mode ECB and CBC\n\n" +
-                "CREATED BY:\n\n" +
-                "Student Name: Gentrit Ibishi\n" +
-                "Email: gentritibishi@gmail.com\n" +
-                "November 13, 2023\n\n" +
-
-                "This program encrypts image files:\n" +
-                keySizesInfo +
-                "It uses Java Cryptographic Extension (JCE)\n" +
-                "javax.crypto package API.\n " +
-                "It uses Bouncy Castle, a lightweight cryptography API for Java,\n" +
-                "org.bouncycastle.crypto package API.\n ";
-
-        JTextArea aboutTextArea = new JTextArea(aboutText);
-        aboutTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        aboutTextArea.setLineWrap(true);
-        aboutTextArea.setWrapStyleWord(true);
-        aboutTextArea.setEditable(false);
-
-        JLabel titleLabel = new JLabel("AES / DES / 3DES Image Encryption and Decryption with Mode ECB and CBC");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-
-        contact.add(titleLabel, BorderLayout.NORTH);
-        contact.add(new JScrollPane(aboutTextArea), BorderLayout.CENTER);
-
-        contact.setVisible(true);
     }
 }

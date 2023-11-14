@@ -17,11 +17,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class DES3ImageEncryptionECBMode {
-
-    // ECB Mode
-    // Values that should be GLOBAL are: Key
-    // We can use generateRandomBytes for encryption and decryption
-    // Key length: 24 for Triple DES
     private SecretKeySpec skeySpec;
 
     public byte[] getKey() {
@@ -39,7 +34,7 @@ public class DES3ImageEncryptionECBMode {
         return bytes;
     }
 
-    private static byte[] encryptDES3(byte[] input, byte[] key)
+    private static byte[] encryptTripleDES(byte[] input, byte[] key)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
         BlockCipher engine = new DESedeEngine(); // Changed to DESedeEngine for Triple DES
@@ -53,7 +48,7 @@ public class DES3ImageEncryptionECBMode {
         return output;
     }
 
-    private static byte[] decryptDES3(byte[] input, byte[] key)
+    private static byte[] decryptTripleDES(byte[] input, byte[] key)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
         BlockCipher engine = new DESedeEngine(); // Changed to DESedeEngine for Triple DES
@@ -75,7 +70,7 @@ public class DES3ImageEncryptionECBMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encryptDES3(imageOrigBytes, getKey());
+        byte[] ciphertext = encryptTripleDES(imageOrigBytes, getKey());
 
         return ImageUtils.bytesToImage(ciphertext, imageOrig.getWidth(), imageOrig.getHeight());
     }
@@ -88,12 +83,11 @@ public class DES3ImageEncryptionECBMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encryptDES3(imageOrigBytes, getKey());
+        byte[] ciphertext = encryptTripleDES(imageOrigBytes, getKey());
 
         // Decrypt
-        byte[] decryptedImageBytes = decryptDES3(ciphertext, getKey());
+        byte[] decryptedImageBytes = decryptTripleDES(ciphertext, getKey());
 
         return ImageUtils.bytesToImage(decryptedImageBytes, imageOrig.getWidth(), imageOrig.getHeight());
     }
 }
-

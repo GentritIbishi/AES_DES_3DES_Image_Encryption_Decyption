@@ -17,11 +17,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class DESImageEncryptionECBMode {
-
-    // ECB Mode
-    // Values that should be GLOBAL are: Key
-    // We can use generateRandomBytes for encryption and decryption
-    // Key length: 8 for DES
     private SecretKeySpec skeySpec;
 
     public byte[] getKey() {

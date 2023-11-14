@@ -3,6 +3,7 @@ package tripledes.cbc;
 import aes.utils.ImageUtils;
 import org.bouncycastle.crypto.BlockCipher;
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.engines.DESEngine;
 import org.bouncycastle.crypto.engines.DESedeEngine;
 import org.bouncycastle.crypto.modes.CBCBlockCipher;
 import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
@@ -23,11 +24,6 @@ import java.security.SecureRandom;
 
 public class DES3ImageEncryptionCBCMode {
 
-    // CBC Mode
-    // Values that should be GLOBAL are: Key and IV
-    // We can use generateRandomBytes for encryption and decryption
-    // Key length: 24 (for 3DES)
-    // IV length: 8 (64 bits for DES)
     byte[] iv = generateRandomBytes(8);
     private KeyParameter keyParameter;
 
@@ -38,10 +34,10 @@ public class DES3ImageEncryptionCBCMode {
         return bytes;
     }
 
-    private static byte[] encrypt3DES(byte[] input, byte[] key, byte[] iv, boolean isCBCMode)
+    private static byte[] encryptTripleDES(byte[] input, byte[] key, byte[] iv, boolean isCBCMode)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
-        BlockCipher engine = new DESedeEngine();
+        BlockCipher engine = new DESedeEngine(); // Use DESedeEngine for Triple DES
         PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(
                 isCBCMode ? new CBCBlockCipher(engine) : engine
         );
@@ -54,10 +50,10 @@ public class DES3ImageEncryptionCBCMode {
         return output;
     }
 
-    private static byte[] decrypt3DES(byte[] input, byte[] key, byte[] iv, boolean isCBCMode)
+    private static byte[] decryptTripleDES(byte[] input, byte[] key, byte[] iv, boolean isCBCMode)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, ShortBufferException, IllegalBlockSizeException, BadPaddingException, InvalidCipherTextException {
-        BlockCipher engine = new DESedeEngine();
+        BlockCipher engine = new DESedeEngine(); // Use DESedeEngine for Triple DES
         PaddedBufferedBlockCipher cipher = new PaddedBufferedBlockCipher(
                 isCBCMode ? new CBCBlockCipher(engine) : engine
         );
@@ -69,6 +65,7 @@ public class DES3ImageEncryptionCBCMode {
 
         return output;
     }
+
 
     public byte[] getKey() {
         return keyParameter.getKey();
@@ -86,7 +83,7 @@ public class DES3ImageEncryptionCBCMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encrypt3DES(imageOrigBytes, getKey(), iv, true);
+        byte[] ciphertext = encryptTripleDES(imageOrigBytes, getKey(), iv, true);
 
         // Convert ciphertext bytes to encrypted image data
         byte[] ivCiphertextVoid = ByteBuffer.allocate(iv.length + ciphertext.length).put(iv).put(ciphertext).array();
@@ -102,12 +99,11 @@ public class DES3ImageEncryptionCBCMode {
         // Convert original image data to bytes
         byte[] imageOrigBytes = ImageUtils.imageToBytes(imageOrig);
 
-        byte[] ciphertext = encrypt3DES(imageOrigBytes, getKey(), iv, true);
+        byte[] ciphertext = encryptTripleDES(imageOrigBytes, getKey(), iv, true);
 
         // Decrypt
-        byte[] decryptedImageBytes = decrypt3DES(ciphertext, getKey(), iv, true);
+        byte[] decryptedImageBytes = decryptTripleDES(ciphertext, getKey(), iv, true);
 
         return ImageUtils.bytesToImage(decryptedImageBytes, imageOrig.getWidth(), imageOrig.getHeight());
     }
 }
-

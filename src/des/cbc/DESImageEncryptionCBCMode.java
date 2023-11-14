@@ -23,11 +23,6 @@ import java.security.SecureRandom;
 
 public class DESImageEncryptionCBCMode {
 
-    // CBC Mode
-    // Values that should be GLOBAL are: Key and IV
-    // We can use generateRandomBytes for encryption and decryption
-    // Key length: 8 (for DES)
-    // IV length: 8 (64 bits for DES)
     byte[] iv = generateRandomBytes(8);
     private KeyParameter keyParameter;
 
