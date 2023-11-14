@@ -36,6 +36,12 @@ This GitHub repository contains the source code and documentation for an image e
 ## Getting Started
 To use the program, follow the instructions provided in the [documentation](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/documentation.pdf). Ensure that you have Java Cryptographic Extension and Bouncy Castle API installed.
 
+## Preview
+![Application overview](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/1.png)
+![JCrypt overview](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/2.png)
+![JCrypt overview set key](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/3.png)
+![Key overview](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/4.png)
+
 ## Installation
 To install the required dependencies, run the following commands:
 
@@ -45,4 +51,3 @@ sudo apt-get install openjdk-8-jdk
 
 # Install Bouncy Castle API see the documentation to configure.
 
-## Preview
