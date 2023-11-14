@@ -43,7 +43,7 @@ To use the program, follow the instructions provided in the [documentation](http
 ![Key overview](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/4.png)
 
 ## Video Preview
-[![Watch the Video](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/1.png)](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/Application%20video.wmv)
+[![Watch the Video](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/thumbnail.png)](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/screenshots/Application%20video.wmv)
 
 ## Installation
 To install the required dependencies, run the following commands:
