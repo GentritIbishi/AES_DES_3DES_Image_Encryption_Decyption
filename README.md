@@ -3,8 +3,7 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/LICENSE.txt)
 
 ## Version 2.0
-
-Welcome to the Image Encryption and Decryption program developed by Gentrit Ibishi. This application provides a secure way to encrypt and decrypt image files using industry-standard algorithms and cryptographic techniques.
+This application provides a secure way to encrypt and decrypt image files using industry-standard algorithms and cryptographic techniques.
 
 ### University Information
 - **University:** University of Prishtina "Hasan Prishtina"
