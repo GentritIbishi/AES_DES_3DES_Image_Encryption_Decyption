@@ -43,5 +43,4 @@ To install the required dependencies, run the following commands:
 # Install Java Cryptographic Extension
 sudo apt-get install openjdk-8-jdk
 
-# Install Bouncy Castle API
-# Add instructions for installing Bouncy Castle, depending on the platform
+# Install Bouncy Castle API [documentation](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/documentation.pdf).
