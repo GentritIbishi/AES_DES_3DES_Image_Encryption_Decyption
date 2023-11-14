@@ -1,4 +1,4 @@
-# AES_DES_3DES_Image_Encryption_Decyption
+# AES_DES_3DES_Image_Encryption_Decryption
 
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/GentritIbishi/AES_DES_3DES_Image_Encryption_Decyption/blob/master/LICENSE.txt)
 
@@ -19,15 +19,22 @@ This application provides a secure way to encrypt and decrypt image files using 
 This GitHub repository contains the source code and documentation for an image encryption and decryption program. The application supports various cryptographic algorithms and modes, offering flexibility and security.
 
 ### Features
-- **Key Sizes:** The program supports various key sizes, providing flexibility in choosing the level of security.
+- **Key Sizes:**
+  - DES:
+    - 56-bit key: 8 bytes (including parity)
+  - AES:
+    - 128-bit key: 16 bytes
+    - 192-bit key: 24 bytes
+    - 256-bit key: 32 bytes
+  - 3DES:
+    - 56-bit key: 8 bytes (including parity) Not supported (Library Bouncy Castle)
+    - 112-bit key: 16 bytes (including parity)
+    - 168-bit key: 24 bytes (including parity)
 - **Java Cryptographic Extension (JCE):** Utilizes the Java Cryptographic Extension for robust cryptographic operations.
-- **Bouncy Castle API:** Incorporates the lightweight cryptography API for Java, Bouncy Castle, available in the org.bouncycastle.crypto package.
+- **Bouncy Castle API:** Incorporates the lightweight cryptography API for Java, Bouncy Castle, available in the `org.bouncycastle.crypto` package.
 
 ## Getting Started
-To use the program, follow the instructions provided in the [documentation](link_to_documentation). Ensure that you have Java Cryptographic Extension and Bouncy Castle API installed.
-
-## Usage
-This program is specifically designed for encrypting and decrypting image files. Detailed usage instructions and examples can be found in the [documentation](link_to_documentation).
+To use the program, follow the instructions provided in the [documentation](link_to_your_documentation). Ensure that you have Java Cryptographic Extension and Bouncy Castle API installed.
 
 ## Installation
 To install the required dependencies, run the following commands:
